@@ -1,0 +1,142 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2nusha1r258u"]
+
+[ext_resource type="Script" path="res://Scenes/Scripts/main.gd" id="1_ppmuo"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ppmuo")
+
+[node name="MainMenuInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 595.0
+offset_top = 314.0
+offset_right = -595.0
+offset_bottom = -314.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuInterface/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="MainLabel" type="Label" parent="MainMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 70
+text = "Меню"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameButton" type="Button" parent="MainMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Игра"
+
+[node name="SettingsButton" type="Button" parent="MainMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Настройки"
+
+[node name="ExitButton" type="Button" parent="MainMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Выход"
+
+[node name="GameMenuInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 606.0
+offset_top = 324.0
+offset_right = -606.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameMenuInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -84.0
+offset_top = 95.0
+offset_right = 73.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameMenuInterface/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="CreateGameLobbyButton" type="Button" parent="GameMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Создать лобби"
+
+[node name="JoinGameLobbyButton" type="Button" parent="GameMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Присоединиться к лобби"
+
+[node name="BackToMenuButton" type="Button" parent="GameMenuInterface/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Назад"
+
+[node name="SettingsMenuInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JoinCreateMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="JoinCreateMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -205.5
+offset_top = -49.0
+offset_right = 205.5
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 65
+text = "Начать игру"
+
+[connection signal="pressed" from="MainMenuInterface/MarginContainer/VBoxContainer/GameButton" to="." method="_on_game_button_pressed"]
+[connection signal="pressed" from="MainMenuInterface/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/MarginContainer/VBoxContainer/CreateGameLobbyButton" to="." method="_on_create_game_lobby_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/MarginContainer/VBoxContainer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
+[connection signal="pressed" from="JoinCreateMenu/Button" to="." method="_on_button_pressed"]
