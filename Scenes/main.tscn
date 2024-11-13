@@ -6,6 +6,7 @@
 script = ExtResource("1_ppmuo")
 
 [node name="MainMenuInterface" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,22 +62,29 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 606.0
-offset_top = 324.0
-offset_right = -606.0
-offset_bottom = -324.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="GameMenuInterface"]
+[node name="ChooseMenu" type="Control" parent="GameMenuInterface"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -84.0
-offset_top = 95.0
-offset_right = 73.0
-offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameMenuInterface/ChooseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -432.5
+offset_top = -177.0
+offset_right = 432.5
+offset_bottom = 177.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 15
@@ -84,24 +92,117 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameMenuInterface/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameMenuInterface/ChooseMenu/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="CreateGameLobbyButton" type="Button" parent="GameMenuInterface/MarginContainer/VBoxContainer"]
+[node name="CreateGameLobbyButton" type="Button" parent="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 65
 text = "Создать лобби"
 
-[node name="JoinGameLobbyButton" type="Button" parent="GameMenuInterface/MarginContainer/VBoxContainer"]
+[node name="JoinGameLobbyButton" type="Button" parent="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 65
 text = "Присоединиться к лобби"
 
-[node name="BackToMenuButton" type="Button" parent="GameMenuInterface/MarginContainer/VBoxContainer"]
+[node name="BackToMenuButton" type="Button" parent="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 65
 text = "Назад"
+
+[node name="JoinCreateMenu" type="Control" parent="GameMenuInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CreateMenu" type="Control" parent="GameMenuInterface/JoinCreateMenu"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameMenuInterface/JoinCreateMenu/CreateMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -591.0
+offset_top = -120.0
+offset_right = 591.0
+offset_bottom = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameMenuInterface/JoinCreateMenu/CreateMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="IPAdressLineEdit" type="LineEdit" parent="GameMenuInterface/JoinCreateMenu/CreateMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+placeholder_text = "IP адресс сервера"
+alignment = 1
+
+[node name="CreateServerButton" type="Button" parent="GameMenuInterface/JoinCreateMenu/CreateMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Создать сервер"
+
+[node name="JoinMenu" type="Control" parent="GameMenuInterface/JoinCreateMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameMenuInterface/JoinCreateMenu/JoinMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameMenuInterface/JoinCreateMenu/JoinMenu/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 15
+
+[node name="IPAdressLineEdit" type="LineEdit" parent="GameMenuInterface/JoinCreateMenu/JoinMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+placeholder_text = "IP"
+alignment = 1
+
+[node name="PortLineEdit" type="LineEdit" parent="GameMenuInterface/JoinCreateMenu/JoinMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+placeholder_text = "Port"
+alignment = 1
+
+[node name="JoinButton" type="Button" parent="GameMenuInterface/JoinCreateMenu/JoinMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Подключиться"
 
 [node name="SettingsMenuInterface" type="Control" parent="."]
 layout_mode = 3
@@ -111,32 +212,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="JoinCreateMenu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Button" type="Button" parent="JoinCreateMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -205.5
-offset_top = -49.0
-offset_right = 205.5
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 65
-text = "Начать игру"
-
 [connection signal="pressed" from="MainMenuInterface/MarginContainer/VBoxContainer/GameButton" to="." method="_on_game_button_pressed"]
 [connection signal="pressed" from="MainMenuInterface/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
-[connection signal="pressed" from="GameMenuInterface/MarginContainer/VBoxContainer/CreateGameLobbyButton" to="." method="_on_create_game_lobby_button_pressed"]
-[connection signal="pressed" from="GameMenuInterface/MarginContainer/VBoxContainer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
-[connection signal="pressed" from="JoinCreateMenu/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer/CreateGameLobbyButton" to="." method="_on_create_game_lobby_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer/JoinGameLobbyButton" to="." method="_on_join_game_lobby_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/JoinCreateMenu/CreateMenu/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
