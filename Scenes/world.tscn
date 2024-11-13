@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvw4lc4csqixq"]
+[gd_scene load_steps=5 format=3 uid="uid://dvw4lc4csqixq"]
 
 [ext_resource type="PackedScene" uid="uid://777nxervercx" path="res://Scenes/player.tscn" id="1_3j3ej"]
+[ext_resource type="Script" path="res://Scenes/Scripts/world.gd" id="1_y2nar"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u3l08"]
 size = Vector3(20, 1, 20)
@@ -9,6 +10,7 @@ size = Vector3(20, 1, 20)
 size = Vector3(20, 1, 20)
 
 [node name="World" type="Node"]
+script = ExtResource("1_y2nar")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
