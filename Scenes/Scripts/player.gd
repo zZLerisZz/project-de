@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+@export var nickname: String = ""
+
 @onready var camera = $Camera3D
 
 const SPEED = 10.0
@@ -10,15 +12,31 @@ var sensivity = 0.002
 var gravity = 20.0
 
 func _ready() -> void:
+	if not is_multiplayer_authority():
+		return
+	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	camera.current = true
+
+
+func _enter_tree() -> void:
+	set_multiplayer_authority(str(name).to_int())
+
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
+	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * sensivity)
 		camera.rotate_x(-event.relative.y * sensivity)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority():
+		return
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta

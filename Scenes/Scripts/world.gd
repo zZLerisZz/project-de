@@ -1,9 +1,9 @@
 extends Node
 
-@export var ip_address: String
+@export var players = []
 
 func _ready() -> void:
-	print_debug(ip_address)
+	return
 
 func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("quit"):

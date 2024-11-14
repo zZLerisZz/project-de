@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvw4lc4csqixq"]
+[gd_scene load_steps=4 format=3 uid="uid://dvw4lc4csqixq"]
 
-[ext_resource type="PackedScene" uid="uid://777nxervercx" path="res://Scenes/player.tscn" id="1_3j3ej"]
 [ext_resource type="Script" path="res://Scenes/Scripts/world.gd" id="1_y2nar"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u3l08"]
@@ -25,4 +24,6 @@ mesh = SubResource("BoxMesh_tm2ry")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 6.5, 0)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("1_3j3ej")]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/player.tscn")
+spawn_path = NodePath("..")

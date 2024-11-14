@@ -277,3 +277,5 @@ text = "Выйти"
 [connection signal="pressed" from="GameMenuInterface/JoinMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="SettingsMenuInterface/MarginContainer/VBoxContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="pressed" from="SettingsMenuInterface/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/ReadyButton" to="." method="_on_ready_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_lobby_back_button_pressed"]
