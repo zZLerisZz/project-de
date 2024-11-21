@@ -49,7 +49,7 @@ func _on_game_button_pressed() -> void:
 	$GameMenuInterface/ChooseMenu.visible = true
 	$GameMenuInterface/JoinMenu.visible = false
 
-
+   
 func _on_back_to_menu_button_pressed() -> void:
 	$MainMenuInterface.visible = true
 	$GameMenuInterface.visible = false
@@ -63,10 +63,6 @@ func _on_create_game_lobby_button_pressed() -> void:
 	players = []
 	can_start = false
 	
-	#players.append({"peer_id": multiplayer.get_unique_id(), "nick": nick})
-	
-	#$LobbyMenu/MarginContainer/VBoxContainer/HostLabel.text = "1." + nick
-	update_players_nicknames(multiplayer.get_unique_id(), nick)
 	$LobbyMenu/MarginContainer/VBoxContainer/JoinerLabel.text = ""
 	
 	var peer = ENetMultiplayerPeer.new()
@@ -78,7 +74,10 @@ func _on_create_game_lobby_button_pressed() -> void:
 	if multiplayer.is_server():
 		print_debug("Server was created")
 	
+	update_players_nicknames(multiplayer.get_unique_id(), nick)
 	_on_client_connected(multiplayer.get_unique_id())
+	
+	upnp_setup(port)
 	
 	$LobbyMenu/MarginContainer/VBoxContainer/ReadyButton.text = "Запустить"
 	
@@ -117,7 +116,7 @@ func _on_join_button_pressed() -> void:
 	var port = int($GameMenuInterface/JoinMenu/MarginContainer/VBoxContainer/PortLineEdit.text)
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(ip_address, port)
-	#players.append({"peer_id": peer.get_unique_id(), "nick": nick})
+
 	update_players_nicknames(peer.get_unique_id(), nick)
 	if error:
 		print_debug("Error in creating server")
@@ -126,7 +125,6 @@ func _on_join_button_pressed() -> void:
 	
 	$LobbyMenu/MarginContainer/VBoxContainer/IpLabel.text = "IP: " + ip_address
 	$LobbyMenu/MarginContainer/VBoxContainer/PortLabel.text = "Port: " + str(port)
-	#$LobbyMenu/MarginContainer/VBoxContainer/JoinerLabel.text = "2." + nick + " не готов"
 	$LobbyMenu/MarginContainer/VBoxContainer/ReadyButton.text = "Подтвердить готовность"
 	
 	$LobbyMenu.visible = true
@@ -138,9 +136,6 @@ func update_players_nicknames(id, nickname):
 	print_debug(str(id) + " player create") 
 	single_player.name = str(id)
 	print_debug("New players " + nickname + " name: " + single_player.name)
-	#if single_player.has_variable("nickname"):
-	#	print_debug("Asdasasdasdasdasdasdasdasdas")
-	#single_player.nickname = nickname
 	world_scene.add_child(single_player)
 	print_debug(nick + " added " + nickname)
 	if id != 1:
@@ -153,9 +148,10 @@ func _on_accept_button_pressed() -> void:
 	nick = $SettingsMenuInterface/MarginContainer/VBoxContainer/NicknameLineEdit.text
 	$SettingsMenuInterface/MarginContainer/VBoxContainer/NicknameLineEdit.text = ""
 	$SettingsMenuInterface/MarginContainer/VBoxContainer/NicknameLineEdit.placeholder_text = nick
+	print_debug(nick)
 
 
-func _on_back_button_pressed() -> void:
+func _on_back_button_pressed() -> void:	
 	$MainMenuInterface.visible = true
 	$SettingsMenuInterface.visible = false
 
@@ -166,15 +162,39 @@ func _on_settings_button_pressed() -> void:
 
 @rpc("any_peer")
 func _on_ready_button_pressed() -> void:
-	_on_ready_button_pressed.rpc_id(players[1].peer_id)
-	for player in players:
-		print_debug(str(player.peer_id) + " " + player.nick)
+	if not multiplayer.is_server():
+		change_readiness()
+		change_readiness.rpc_id(1)
+		if can_start:
+			$LobbyMenu/MarginContainer/VBoxContainer/ReadyButton.text = "Отменить готовность"
+		else:
+			$LobbyMenu/MarginContainer/VBoxContainer/ReadyButton.text = "Подтвердить готовность"
+	else:
+		if can_start:
+			start_game.rpc_id(players[1].peer_id)
+			start_game()
+
+@rpc("any_peer")
+func start_game() -> void:
 	world_scene.players = players
 	get_tree().current_scene.queue_free()
 	get_tree().root.add_child(world_scene)
 	get_tree().current_scene = world_scene
 	get_tree().current_scene.multiplayer.multiplayer_peer = multiplayer.multiplayer_peer
 
+@rpc("any_peer")
+func change_readiness() -> void:
+	var nick_of_joiner = ""
+	can_start = not can_start
+	if players[0].peer_id == 1:
+		nick_of_joiner = players[1].nick
+	else:
+		nick_of_joiner = players[0].nick
+	if can_start:
+		nick_of_joiner = "2." + nick_of_joiner + " готов"
+	else:
+		nick_of_joiner = "2." + nick_of_joiner + " не готов"
+	$LobbyMenu/MarginContainer/VBoxContainer/JoinerLabel.text = nick_of_joiner
 
 func _on_lobby_back_button_pressed() -> void:
 	$LobbyMenu.visible = false
@@ -183,15 +203,35 @@ func _on_lobby_back_button_pressed() -> void:
 		$GameMenuInterface/ChooseMenu.visible = true
 	else:
 		$GameMenuInterface/JoinMenu.visible = true
+	_clear_player(multiplayer.get_unique_id())
 	multiplayer.multiplayer_peer = null
 
+func _clear_player(name):
+	var player = world_scene.get_node_or_null(str(name))
+	if player:
+		player.queue_free()
 
 func _on_disconnect_work_with(peer_id):
-	print_debug("ASDASDASDASDASDASD")
-	
+	_clear_player(peer_id)
 	if peer_id == 1:
 		_on_lobby_back_button_pressed()
 	else:
 		players = []
 		players.append({"peer_id": multiplayer.get_unique_id(), "nick": nick})
 		$LobbyMenu/MarginContainer/VBoxContainer/JoinerLabel.text = ""
+
+func upnp_setup(free_port):
+	var upnp = UPNP.new()
+	
+	var discover_result = upnp.discover()
+	assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \
+		"UPNP Discover Failed! Error %s" % discover_result)
+
+	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \
+		"UPNP Invalid Gateway!")
+
+	var map_result = upnp.add_port_mapping(free_port)
+	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
+		"UPNP Port Mapping Failed! Error %s" % map_result)
+	
+	print("Success! Join Address: %s" % upnp.query_external_address())
