@@ -7,6 +7,8 @@ var can_start = false
 @onready var player_scene = preload("res://Scenes/player.tscn")
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	$MainMenuInterface.visible = true
 	$GameMenuInterface.visible = false
 	$SettingsMenuInterface.visible = false
@@ -77,7 +79,7 @@ func _on_create_game_lobby_button_pressed() -> void:
 	update_players_nicknames(multiplayer.get_unique_id(), nick)
 	_on_client_connected(multiplayer.get_unique_id())
 	
-	upnp_setup(port)
+	#upnp_setup(port)
 	
 	$LobbyMenu/MarginContainer/VBoxContainer/ReadyButton.text = "Запустить"
 	
@@ -148,7 +150,6 @@ func _on_accept_button_pressed() -> void:
 	nick = $SettingsMenuInterface/MarginContainer/VBoxContainer/NicknameLineEdit.text
 	$SettingsMenuInterface/MarginContainer/VBoxContainer/NicknameLineEdit.text = ""
 	$SettingsMenuInterface/MarginContainer/VBoxContainer/NicknameLineEdit.placeholder_text = nick
-	print_debug(nick)
 
 
 func _on_back_button_pressed() -> void:	
