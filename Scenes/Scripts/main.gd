@@ -236,3 +236,8 @@ func upnp_setup(free_port):
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
+
+
+func _on_back_from_join_menu_pressed() -> void:
+	$GameMenuInterface/JoinMenu.visible = false
+	$GameMenuInterface/ChooseMenu.visible = true

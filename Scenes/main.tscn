@@ -58,7 +58,6 @@ theme_override_font_sizes/font_size = 65
 text = "Выход"
 
 [node name="GameMenuInterface" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -67,6 +66,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ChooseMenu" type="Control" parent="GameMenuInterface"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -154,6 +154,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 65
 text = "Подключиться"
 
+[node name="BackFromJoinMenu" type="Button" parent="GameMenuInterface/JoinMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 65
+text = "Назад"
+
 [node name="SettingsMenuInterface" type="Control" parent="."]
 visible = false
 layout_mode = 3
@@ -203,6 +208,7 @@ theme_override_font_sizes/font_size = 65
 text = "Назад"
 
 [node name="LobbyMenu" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -275,6 +281,7 @@ text = "Выйти"
 [connection signal="pressed" from="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer/JoinGameLobbyButton" to="." method="_on_join_game_lobby_button_pressed"]
 [connection signal="pressed" from="GameMenuInterface/ChooseMenu/MarginContainer/VBoxContainer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
 [connection signal="pressed" from="GameMenuInterface/JoinMenu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="GameMenuInterface/JoinMenu/MarginContainer/VBoxContainer/BackFromJoinMenu" to="." method="_on_back_from_join_menu_pressed"]
 [connection signal="pressed" from="SettingsMenuInterface/MarginContainer/VBoxContainer/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="pressed" from="SettingsMenuInterface/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/ReadyButton" to="." method="_on_ready_button_pressed"]
